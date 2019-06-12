@@ -97,10 +97,9 @@ public class TestBase {
 
 				// DesiredCapabilities cap = new DesiredCapabilities();
 				// cap.setCapability("proxy", proxy);
-				System.setProperty("webdriver.firefox.marionette",
-						System.getProperty("user.dir") + "/driver/geckodriver.exe");
+				WebDriverManager.firefoxdriver().setup();
 				FirefoxOptions options = new FirefoxOptions();
-				String strFFBinaryPath = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe";
+				String strFFBinaryPath = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 				options.setBinary(strFFBinaryPath);
 				driver = new FirefoxDriver(options);
 
@@ -114,10 +113,9 @@ public class TestBase {
 				driver = new ChromeDriver(cap);
 
 			} else if (browser.equalsIgnoreCase("IE")) {
-				System.setProperty("webdriver.ie.driver",
-						System.getProperty("user.dir") + "/drivers/IEDriverServer.exe");
+				WebDriverManager.iedriver().setup();
 
-				DesiredCapabilities cap = new DesiredCapabilities();
+				DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
 
 				driver = new InternetExplorerDriver(cap);
 

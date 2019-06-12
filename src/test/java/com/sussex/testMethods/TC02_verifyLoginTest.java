@@ -37,6 +37,12 @@ public class TC02_verifyLoginTest extends TestBase {
 		return testdata;
 	}
 
+	@DataProvider(name = "UILoginValidation")
+	public String[][] UILoginValidation() {
+		String[][] testdata = getData("TestData.xlsx", "LoginPageUI");
+		return testdata;
+	}
+
 	@BeforeSuite
 	public void setUp() throws InterruptedException {
 		try {
@@ -91,38 +97,32 @@ public class TC02_verifyLoginTest extends TestBase {
 		}
 	}
 
-	@Test(enabled = false, priority = 1, dataProvider = "ValidationOnLoginPage")
-	public void VerifyElementsOnLogOnPage(String loginPageTitle, String logOnText, String termsAndCondition,
-			String runMode) throws InterruptedException {
-		if (runMode.equalsIgnoreCase("n")) {
-			throw new SkipException("user marked this record as no run");
-		}
+	@Test(enabled = true, priority = 1, dataProvider = "UILoginValidation")
+	public void VerifyElementsOnLogOnPage(String loginPageTitle, String logOnText, String termsAndCondition) throws InterruptedException {
+		
 		try {
-			test.log(LogStatus.PASS, "***************TC002--01 Verify Elements on Login Page****************");
+			/*test.log(LogStatus.PASS, "***************TC002--01 Verify Elements on Login Page****************");
 			test.log(LogStatus.PASS, "***************TC002--02 Accepting cookies on Registration page****************");
 			// LoginPage loginPage = new LoginPage(driver);
+			loginPage.acceptCookies();*/
+			
+			test.log(LogStatus.PASS, "*****TC002--04 Accepting cookies on login page*****");
 			loginPage.acceptCookies();
-			test.log(LogStatus.PASS, "*****TC002--03 On Registration page, clicking on Login Button*****");
-			registrationPage.loginButton();
-			test.log(LogStatus.PASS, "*****TC002--04 Accpting cookies on login page*****");
-			loginPage.acceptCookies();
-			loginPage.uosLogo();
+			loginPage.uosLogo().isDisplayed();
+			test.log(LogStatus.PASS, "Title of Login Page is " + loginPage.getTitle());
 			Assert.assertEquals(loginPage.getTitle(), loginPageTitle);
-			System.out.println("Successfully validates the title of the page  - " + loginPage.getTitle());
-			loginPage.getLogOnText();
-			Assert.assertEquals(loginPage.getLogOnText(), logOnText);
-			System.out.println("Successfully validating the logon text on the logon Page");
-			Thread.sleep(8000);
-			loginPage.verifyLink();
-			Assert.assertEquals(loginPage.verifyLink(), termsAndCondition);
-			System.out.println("Successfully verify the View Terms and Condition Link");
+			
+			if(loginPage.getLogOnText().isDisplayed()) {
+				Assert.assertEquals(loginPage.getLogOnText().getText(), logOnText);
+				test.log(LogStatus.PASS, "Header message on Login Page : "+loginPage.getLogOnText().getText() +" : Is Displayed");
+			}
+						
+			if(loginPage.verifyLink().isDisplayed()) {
+				Assert.assertEquals(loginPage.verifyLink().getText(), termsAndCondition);
+				test.log(LogStatus.PASS, "terms and conditions link : "+loginPage.verifyLink().getText() +" : Is Displayed");
+			}
+			
 
-			// loginPage.defaultChk();
-			// Assert.assertTrue(loginPage.defaultChk().isSelected());
-			// System.out.println("Check Box is default selected");
-			// loginPage.optionalChk();
-			// Assert.assertFalse(loginPage.optionalChk().isSelected());
-			// System.out.println("Check Box is not selected");
 
 		} catch (Exception e) {
 			// TODO: handle exception

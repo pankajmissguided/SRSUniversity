@@ -162,9 +162,9 @@ public class LoginPage {
 
 	By LogOnText = By.xpath("//h2[contains(text(),'Log on using your details')]");
 
-	public String getLogOnText(){
-	driver.findElement(LogOnText).isDisplayed();
-	return driver.findElement(LogOnText).getText();
+	public WebElement getLogOnText(){
+	return driver.findElement(LogOnText);
+	
 	}
 
 	// //Objects for Default Check in Box
@@ -189,11 +189,9 @@ public class LoginPage {
 
 	 By LinkTermsCondition = By.partialLinkText("View Terms");
 
-	 public String verifyLink(){
-	  driver.findElement(LinkTermsCondition).isDisplayed();
-	  driver.findElement(LinkTermsCondition).isEnabled();
-	  //driver.findElement(LinkTermsCondition).click();
-return driver.findElement(LinkTermsCondition).getText();
+	 public WebElement verifyLink(){
+	 
+return driver.findElement(LinkTermsCondition);
 
 	 }
 
