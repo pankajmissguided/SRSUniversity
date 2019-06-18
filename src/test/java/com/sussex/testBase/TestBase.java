@@ -19,7 +19,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
 import com.relevantcodes.extentreports.ExtentReports;
@@ -113,12 +113,24 @@ public class TestBase {
 				driver = new ChromeDriver(cap);
 
 			} else if (browser.equalsIgnoreCase("IE")) {
-				WebDriverManager.iedriver().setup();
+				//WebDriverManager.iedriver().setup();
+				
+				System.setProperty("webdriver.ie.driver", "C:\\SRSUniversity\\SRSUniversity\\drivers\\IEDriverServer.exe");
 
-				DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
-
-				driver = new InternetExplorerDriver(cap);
-
+				DesiredCapabilities cap = new DesiredCapabilities();
+				cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				cap.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
+				cap.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, true);
+				cap.setCapability(InternetExplorerDriver.ELEMENT_SCROLL_BEHAVIOR, true);
+				cap.setCapability("ignoreProtectedModeSettings", true);
+				//cap.setCapability("IE.binary", "C:/Program Files (x86)/Internet Explorer/iexplore.exe");
+				cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+				cap.setJavascriptEnabled(true);
+				cap.setCapability("requireWindowFocus", true);
+				cap.setCapability("enablePersistentHover", false);
+			
+			    driver = new InternetExplorerDriver(cap);
+				
 			} else {
 				System.out.println("Browser Name not found");
 			}

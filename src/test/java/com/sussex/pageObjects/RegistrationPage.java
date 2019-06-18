@@ -3,6 +3,7 @@ package com.sussex.pageObjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -60,17 +61,21 @@ public class RegistrationPage {
 				
 		//Objects for Gender
 				By gendertxtBox = By.id("Gender");
-		By GenderText = By.xpath("//*[@id=\"Gender_Container\"]/div[2]/div[1]/button");
+		By GenderText = By.xpath("//*[@id='Gender_Container']/div[2]/div[1]/button/span");
 		By GenderDropDownoptions = By.xpath("//*[@id='Gender_Container']/div[2]/div[2]/div[1]/table/tbody/tr/td");
 		public void enterGender(String Gender) throws InterruptedException {
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			
 		
-		driver.findElement(GenderText).click();
-		Thread.sleep(1000);
+		WebElement element = driver.findElement(GenderText);
+		
+		executor.executeScript("arguments[0].click();", element);
+		Thread.sleep(2500);
 		List<WebElement> li = driver.findElements(GenderDropDownoptions);
 		for (WebElement webElement : li) {
 			Thread.sleep(500);
 			if (webElement.getText().trim().contains(Gender)) {
-				webElement.click();
+				executor.executeScript("arguments[0].click();", webElement);
 				break;
 							}
 		}
@@ -94,19 +99,21 @@ public class RegistrationPage {
 		By nationalityOptions = By.xpath("//*[@id=\"Nationality_Container\"]/div[2]/div[2]/div[1]/table/tbody/tr/td");
 		By nationalitytxt = By.id("Nationality");
 		public void nationality(String Nationality) throws InterruptedException {
-			driver.findElement(nationalityDrpBtn).click();
-			Thread.sleep(1000);
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+			
+			WebElement element = driver.findElement(nationalityDrpBtn);
+			executor.executeScript("arguments[0].click();", element);
+			Thread.sleep(2500);
 			List<WebElement> li = driver.findElements(nationalityOptions);
 			for (WebElement webElement : li) {
 				Thread.sleep(500);
 				if (webElement.getText().trim().contains(Nationality)) {
-					webElement.click();
+				     executor.executeScript("arguments[0].click();", webElement);
 					break;
 								}
 			}
 			driver.findElement(nationalitytxt).sendKeys(Keys.TAB);
 			}
-		
 		
 		//Objects for Password
 		By PasswordText = By.cssSelector("#Password");
@@ -127,9 +134,14 @@ public class RegistrationPage {
 				By CheckBoxSelected = By.xpath("//*[@id='ParentObject_StudentRegistration']/div/section/div/div[9]/div/div[1]");
 				
 				public void previouslyAppliedcheckBox() throws InterruptedException {
-					Thread.sleep(1500);
+					JavascriptExecutor executor = (JavascriptExecutor)driver;
+					
+					WebElement element = driver.findElement(CheckBoxSelected);
 					driver.findElement(CheckBoxSelected).isDisplayed();
-					driver.findElement(CheckBoxSelected).click();
+					executor.executeScript("arguments[0].click();", element);
+					//Thread.sleep(1500);
+					
+					//driver.findElement(CheckBoxSelected).click();
 				}
 				
 				//Objects for Terms ANd Condition
@@ -137,16 +149,23 @@ public class RegistrationPage {
 				By termsAndConditionCheckBox = By.xpath("//div[@class='firstControl sideBySide styleContainer stackedStyle']//div[@class='cbcEditorField']");
 				
 				public void termsAndConditionCheckBox() {
+                JavascriptExecutor executor = (JavascriptExecutor)driver;
+					
+					WebElement element = driver.findElement(termsAndConditionCheckBox);
 					driver.findElement(termsAndConditionCheckBox).isDisplayed();
-					driver.findElement(termsAndConditionCheckBox).click();
+					executor.executeScript("arguments[0].click();", element);		
 				}
+				//Objects for Register button
 				
 				By RegisterButton = By.xpath("//*[@id='StudentApplicationRegistrationSection']/div[2]/div[2]/ul/li/button/span");
 				
-				public void verifyRegisterButton() {
-					driver.findElement(RegisterButton).isDisplayed();
-                    driver.findElement(RegisterButton).isEnabled();	
-                    driver.findElement(RegisterButton).click();
+				public void verifyRegisterButton() throws InterruptedException {
+					 JavascriptExecutor executor = (JavascriptExecutor)driver;
+						
+						WebElement element = driver.findElement(RegisterButton);
+						driver.findElement(RegisterButton).isDisplayed();
+						executor.executeScript("arguments[0].click();", element);
+						Thread.sleep(2500);
 				}
 
 				By registerbtn = By.xpath("//*[@id=\"StudentApplicationRegistrationSection\"]/div[2]/div[2]/ul/li/button");
@@ -157,4 +176,43 @@ public class RegistrationPage {
                     driver.findElement(registerbtn).click();
 								}
 				
+				//Objects for Registration Confirmation
+				By ConfirmRegistration = By.xpath("//*[@id='PrimaryAction_DefaultButton']/span");
+				
+				public WebElement verifyConfirmRegistrationButton() {
+					return driver.findElement(ConfirmRegistration);
+				}
+				
+				//objects for Thankyou msg after registration
+				
+				By ThankyouMsgAfterRegistration = By.cssSelector("div.splashScreenStatusText.plainText");
+				
+				public WebElement verifyThankyouText() {
+					return driver.findElement(ThankyouMsgAfterRegistration);
+				}
+				// objects for confirmation email text after registration
+					
+					By ConfirmationText =  By.cssSelector("div.splashScreenStatusMessagePart.plainText");
+					
+					public WebElement verifyConfirmationText() {
+						return driver.findElement(ConfirmationText);
+								
 }
+				//Objects to verify student after registration
+					
+					By StudentGivenName = By.xpath("//*[@id='FormTitleControl']/div[2]//span[1]//span");
+					
+					public WebElement verifyStudentGivenName() {
+						return driver.findElement(StudentGivenName);
+					}
+					
+				//Objects to verify Error Msg on Registration page
+					
+					By ErrorMsg = By.xpath("//*[@id='MessagesPanel']/p/span[2]/text()");
+					
+					public WebElement  verifyErrorMsg() {
+						return driver.findElement(ErrorMsg);
+					}
+					}
+				
+

@@ -5,7 +5,7 @@
   <test name="RegressionTest">
     <classes>
     
-       <class name="com.sussex.testMethods.TC02_verifyLoginTest"/> 
+       <class name="com.sussex.testMethods.TC01_verifyRegistrationPage"/> 
        
        </classes>
   </test>
